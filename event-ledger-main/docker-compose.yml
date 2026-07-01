@@ -1,0 +1,29 @@
+services:
+  account-service:
+    image: maven:3.9.9-eclipse-temurin-17
+    container_name: account-service
+    working_dir: /workspace/account-service
+    command: ["mvn", "spring-boot:run", "-Dspring-boot.run.arguments=--server.port=8081"]
+    volumes:
+      - ./account-service/account-service:/workspace/account-service
+      - m2-cache:/root/.m2
+    ports:
+      - "8081:8081"
+
+  gateway-service:
+    image: maven:3.9.9-eclipse-temurin-17
+    container_name: gateway-service
+    working_dir: /workspace/gateway-service
+    command: ["mvn", "spring-boot:run", "-Dspring-boot.run.arguments=--server.port=8080"]
+    environment:
+      ACCOUNT_SERVICE_BASE_URL: http://account-service:8081
+    volumes:
+      - ./gateway-service/gateway-service:/workspace/gateway-service
+      - m2-cache:/root/.m2
+    ports:
+      - "8080:8080"
+    depends_on:
+      - account-service
+
+volumes:
+  m2-cache:
