@@ -1,0 +1,20 @@
+# Build output
+**/target/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Archives
+*.zip
+
+# Local docs
+*.docx
